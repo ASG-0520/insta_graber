@@ -1,11 +1,12 @@
+import sys
 import insta_graber
-import sys  # sys нужен для передачи argv в QApplication
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication
 import design
+import instaloader
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QApplication, QMessageBox, QInputDialog
 
 
-class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
+class InstaGrabber(QtWidgets.QMainWindow, design.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -54,8 +55,24 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
 
         # download_post:
         if self.rb_download_post.isChecked():
-            insta_graber.download_post_shortcode(self.lineEdit.text())  #
-            self.label_done.setText('Done!')
+
+            try:
+                insta_graber.download_post_shortcode(self.lineEdit.text())  #
+
+            except instaloader.exceptions.LoginRequiredException:
+                print('Это закрытый пост, нужно ЗАЛОГИНИТЬСЯ')
+                self.show_popup_login_error()
+                self.login()
+
+            except instaloader.exceptions.ConnectionException:
+                print('нет подключения, проверь инет')
+                self.show_popup_connection_error()
+
+            except IndexError:
+                print("не верный адрес")
+                self.show_popup_index_error()
+            else:
+                self.show_popup(title='Done', text='DONE ', ico=QMessageBox.Warning)
 
         # download_profile
         elif self.rb_download_profile.isChecked():
@@ -66,11 +83,53 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             insta_graber.download_profile(self.lineEdit.text())  #
         # ____________________________________________________________________________________
 
+    def show_popup_login_error(self):
+        msg = QMessageBox()
+        msg.setWindowTitle('login_error')
+        msg.setText('This is a private post, you need to log in')
+        msg.setInformativeText('Login and try again.')
+        msg.setIcon(QMessageBox.Warning)
+        x = msg.exec_()
+
+    def show_popup_connection_error(self):
+        msg = QMessageBox()
+        msg.setWindowTitle('connection_error')
+        msg.setText('Connection error')
+        msg.setIcon(QMessageBox.Critical)
+        msg.setInformativeText('Connection aborted, check the Internet')
+        x = msg.exec_()
+
+    def show_popup_index_error(self):
+        msg = QMessageBox()
+        msg.setWindowTitle('index_error')
+        msg.setText("URL error: ")
+        msg.setIcon(QMessageBox.Critical)
+        msg.setInformativeText('Requested URL is incorrect or page has been removed')
+        x = msg.exec_()
+
+    def show_popup(self, title="", text="", info="", ico=QMessageBox.Critical):
+        msg = QMessageBox()
+        msg.setWindowTitle(title)
+        msg.setText(text)
+        msg.setIcon(ico)
+        msg.setInformativeText(info)
+        x = msg.exec_()
+
+    def login(self):
+        input_login = QInputDialog.getText(self, 'Login', 'Login')
+        input_password = QInputDialog.getText(self, 'Password', 'Password')
+        print(input_login, input_password)
+        try:
+            insta_graber.login(input_login[0], input_password[0])
+        except Exception as exception_error:
+            self.show_popup(title='Error', text=str(exception_error))
+        else:
+            self.label_login.setText("You loged in like: " + input_login[0])
+
 
 def main():
-    # insta_graber.login()
     app = QtWidgets.QApplication(sys.argv)  # Новый экземпляр QApplication
-    window = ExampleApp()  # Создаём объект класса ExampleApp
+    window = InstaGrabber()  # Создаём объект класса ExampleApp
     window.show()  # Показываем окно
     app.exec_()  # и запускаем приложение
 

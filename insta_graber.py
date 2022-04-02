@@ -1,6 +1,5 @@
 import instaloader  # https://instaloader.github.io/module/instaloader.html?highlight=caption
-from settings import log, pas
-import insta_grabber_program
+# from settings import log, pas
 
 """
 Instaloader (Main Class)
@@ -20,7 +19,7 @@ L.download_comments = False
 L.dirname_pattern = '/Users/aleksandrg./Downloads/Instaloader_downloads'
 
 
-def login():
+def login(log, pas):
     print('Logging into the instagramm account....')
     L.login(log, pas)
     print('Login successful! \n-------------')
@@ -72,12 +71,3 @@ def download_top_x_posts():
 
     for post in islice(posts_sorted_by_likes, ceil(profile.mediacount * x_percentage / 100)):
         L.download_post(post, profile_to_download_from)
-
-# def main():
-#     download_update_profile()
-#     # download_post_shortcode()
-#     # download_top_x_posts()
-
-
-# if __name__ == '__main__':
-#     main()
