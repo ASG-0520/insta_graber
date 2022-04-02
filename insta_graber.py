@@ -1,4 +1,5 @@
 import instaloader  # https://instaloader.github.io/module/instaloader.html?highlight=caption
+
 # from settings import log, pas
 
 """
@@ -17,6 +18,8 @@ L.post_metadata_txt_pattern = ''  # post caption off (подпись поста)
 L.download_geotags = False
 L.download_comments = False
 L.dirname_pattern = '/Users/aleksandrg./Downloads/Instaloader_downloads'
+L.download_pictures = True
+L.download_videos = True
 
 
 def login(log, pas):

@@ -25,7 +25,9 @@ class InstaGrabber(QtWidgets.QMainWindow, design.Ui_MainWindow):
         insta_graber.L.dirname_pattern = directory
 
     def menu(self):
-        # ____________________________________CheckBox:______________________________________
+        # ================================================================================ #
+        # #################################  CheckBox:  ################################## #
+        # ================================================================================ #
 
         # post_metadata_txt_patternx:
         if self.cb_post_metadata_txt_patternx.isChecked():
@@ -51,11 +53,26 @@ class InstaGrabber(QtWidgets.QMainWindow, design.Ui_MainWindow):
         else:
             insta_graber.L.download_comments = False
 
-        # ____________________________________RadioButton____________________________________
+        # # download_pics:
+        if self.cb_no_pics.isChecked():
+            insta_graber.L.download_pictures = False
+        else:
+            insta_graber.L.download_pictures = True
 
+        # download_videos:
+        if self.cb_no_videos.isChecked():
+            insta_graber.L.download_videos = False
+        else:
+            insta_graber.L.download_videos = True
+
+        # ================================================================================ #
+        # ################################  RadioButtons: ################################ #
+        # ================================================================================ #
+
+        # ================================================================================ #
         # download_post:
+        # ================================================================================ #
         if self.rb_download_post.isChecked():
-
             try:
                 insta_graber.download_post_shortcode(self.lineEdit.text())  #
 
@@ -74,14 +91,51 @@ class InstaGrabber(QtWidgets.QMainWindow, design.Ui_MainWindow):
             else:
                 self.show_popup(title='Done', text='DONE ', ico=QMessageBox.Warning)
 
-        # download_profile
+        # ================================================================================ #
+        # download_profile:
+        # ================================================================================ #
         elif self.rb_download_profile.isChecked():
-            insta_graber.download_profile(self.lineEdit.text())  #
 
-        # update_profile
+            try:
+                insta_graber.download_profile(self.lineEdit.text())
+
+            except instaloader.exceptions.LoginRequiredException:
+                print('Это закрытый пост, нужно ЗАЛОГИНИТЬСЯ')
+                self.show_popup_login_error()
+                self.login()
+
+            except instaloader.exceptions.ConnectionException:
+                print('нет подключения, проверь инет')
+                self.show_popup_connection_error()
+
+            except IndexError:
+                print("не верный адрес")
+                self.show_popup_index_error()
+            else:
+                self.show_popup(title='Done', text='DONE ', ico=QMessageBox.Warning)
+        # ================================================================================ #
+        # update_profile:
+        # ================================================================================ #
         elif self.rb_update_profile.isChecked():
-            insta_graber.download_profile(self.lineEdit.text())  #
-        # ____________________________________________________________________________________
+
+            try:
+                insta_graber.update_profile(self.lineEdit.text())
+
+            except instaloader.exceptions.LoginRequiredException:
+                print('Это закрытый пост, нужно ЗАЛОГИНИТЬСЯ')
+                self.show_popup_login_error()
+                self.login()
+
+            except instaloader.exceptions.ConnectionException:
+                print('нет подключения, проверь инет')
+                self.show_popup_connection_error()
+
+            except IndexError:
+                print("не верный адрес")
+                self.show_popup_index_error()
+            else:
+                self.show_popup(title='Done', text='DONE ', ico=QMessageBox.Warning)
+        # ================================================================================ #
 
     def show_popup_login_error(self):
         msg = QMessageBox()
@@ -128,11 +182,11 @@ class InstaGrabber(QtWidgets.QMainWindow, design.Ui_MainWindow):
 
 
 def main():
-    app = QtWidgets.QApplication(sys.argv)  # Новый экземпляр QApplication
-    window = InstaGrabber()  # Создаём объект класса ExampleApp
-    window.show()  # Показываем окно
-    app.exec_()  # и запускаем приложение
+    app = QtWidgets.QApplication(sys.argv)
+    window = InstaGrabber()
+    window.show()
+    app.exec_()
 
 
-if __name__ == '__main__':  # Если мы запускаем файл напрямую, а не импортируем
-    main()  # то запускаем функцию main()
+if __name__ == '__main__':
+    main()
