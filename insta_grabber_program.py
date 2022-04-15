@@ -20,6 +20,7 @@ class InstaGrabber(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.login_btn.clicked.connect(self.login)
         self.open_dir_btn.clicked.connect(self.open_folder)
         self.login_from_file_btn.clicked.connect(self.login_from_file)
+        self.exit_bn.clicked.connect(sys.exit)
 
         self.label_dir.setText(str(insta_graber.d_path))
         self.label_dir.setToolTip(str(insta_graber.d_path))

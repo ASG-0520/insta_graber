@@ -1,15 +1,6 @@
 import instaloader  # https://instaloader.github.io/module/instaloader.html?highlight=caption
 from pathlib import Path
 
-"""
-Instaloader (Main Class)
-:param post_metadata_txt_pattern = "": comment on the post
-:param download_geotags = False
-:param save_metadata = False
-:param save_metadata_json = False
-:param download_comments = False
-"""
-
 L = instaloader.Instaloader()
 
 L.save_metadata = False  # json file
@@ -30,7 +21,7 @@ def login(log, pas):
     print('Login successful! \n-------------')
 
 
-def download_post_shortcode(url_of_the_post):  # Enter the URL of the post:url_of_the_post
+def download_post_shortcode(url_of_the_post):
     """
     Download everything associated with one instagram post node, i.e. picture, caption and video.
 
@@ -62,15 +53,5 @@ def update_profile(url_of_the_profile):
 
 
 def download_top_x_posts(url_of_the_profile):
-    """ It is easy to download the few most-liked posts. """
-    t = 0
-    profile_name = url_of_the_profile.split('/')[3]
-    profile = instaloader.Profile.from_username(L.context, profile_name)
-    posts_sorted_by_likes = sorted(profile.get_posts(), key=lambda p: p.likes, reverse=True)
-
-    x = 5  # top 5
-    while x != t:
-        for post in posts_sorted_by_likes:
-            L.download_post(post, profile_name)
-            t += 1
+    pass
 
