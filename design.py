@@ -26,6 +26,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setContentsMargins(12, -1, -1, -1)
         self.horizontalLayout.setSpacing(8)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.login_btn = QtWidgets.QPushButton(self.centralwidget)
@@ -46,6 +47,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.label_login)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
+        self.login_from_file_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.login_from_file_btn.setObjectName("login_from_file_btn")
+        self.horizontalLayout.addWidget(self.login_from_file_btn)
         self.verticalLayout_3.addLayout(self.horizontalLayout)
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_4.setContentsMargins(12, -1, 0, -1)
@@ -99,6 +103,8 @@ class Ui_MainWindow(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.rb_download_post = QtWidgets.QRadioButton(self.centralwidget)
+        self.rb_download_post.setCheckable(True)
+        self.rb_download_post.setChecked(True)
         self.rb_download_post.setObjectName("rb_download_post")
         self.verticalLayout.addWidget(self.rb_download_post)
         self.rb_download_profile = QtWidgets.QRadioButton(self.centralwidget)
@@ -160,8 +166,9 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "InstaGrabber"))
         self.login_btn.setText(_translate("MainWindow", "Login"))
+        self.login_from_file_btn.setText(_translate("MainWindow", "Login from file"))
         self.label.setText(_translate("MainWindow", "URL: "))
         self.past_btn.setText(_translate("MainWindow", "past"))
         self.set_dir_btn.setText(_translate("MainWindow", "set directory"))
