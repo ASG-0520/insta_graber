@@ -9,6 +9,42 @@ from pathlib import Path
 import webbrowser
 
 
+def show_popup_login_error():
+    msg = QMessageBox()
+    msg.setWindowTitle('login_error')
+    msg.setText('This is a private post, you need to log in')
+    msg.setInformativeText('Login and try again.')
+    msg.setIcon(QMessageBox.Warning)
+    x = msg.exec_()
+
+
+def show_popup_connection_error():
+    msg = QMessageBox()
+    msg.setWindowTitle('connection_error')
+    msg.setText('Connection error')
+    msg.setIcon(QMessageBox.Critical)
+    msg.setInformativeText('Connection aborted, check the Internet')
+    x = msg.exec_()
+
+
+def show_popup_index_error():
+    msg = QMessageBox()
+    msg.setWindowTitle('index_error')
+    msg.setText("URL error: ")
+    msg.setIcon(QMessageBox.Critical)
+    msg.setInformativeText('Requested URL is incorrect or page has been removed')
+    x = msg.exec_()
+
+
+def show_popup(title="", text="", info="", ico=QMessageBox.Critical):
+    msg = QMessageBox()
+    msg.setWindowTitle(title)
+    msg.setText(text)
+    msg.setIcon(ico)
+    msg.setInformativeText(info)
+    x = msg.exec_()
+
+
 class InstaGrabber(QtWidgets.QMainWindow, design.Ui_MainWindow):
     def __init__(self):
         super().__init__()
@@ -32,13 +68,13 @@ class InstaGrabber(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 insta_graber.login(s_log, s_pas)
             except instaloader.exceptions.ConnectionException:
                 print('нет подключения, проверь инет')
-                self.show_popup_connection_error()
+                show_popup_connection_error()
             except Exception as exception_error:
-                self.show_popup(title='Error', text=str(exception_error))
+                show_popup(title='Error', text=str(exception_error))
             else:
                 self.label_login.setText("You loged in like: " + s_log)
         else:
-            self.show_popup(title="File error", text='File error', info="Check the file set_log.py",
+            show_popup(title="File error", text='File error', info="Check the file set_log.py",
                             ico=QMessageBox.Critical)
 
     def paste_func(self):
@@ -110,18 +146,18 @@ class InstaGrabber(QtWidgets.QMainWindow, design.Ui_MainWindow):
 
             except instaloader.exceptions.LoginRequiredException:
                 print('Это закрытый пост, нужно ЗАЛОГИНИТЬСЯ')
-                self.show_popup_login_error()
+                show_popup_login_error()
                 self.login()
 
             except instaloader.exceptions.ConnectionException:
                 print('нет подключения, проверь инет')
-                self.show_popup_connection_error()
+                show_popup_connection_error()
 
             except IndexError:
                 print("не верный адрес")
-                self.show_popup_index_error()
+                show_popup_index_error()
             else:
-                self.show_popup(title='Done', text='DONE ', ico=QMessageBox.Warning)
+                show_popup(title='Done', text='DONE ', ico=QMessageBox.Warning)
 
         # ================================================================================ #
         # download_profile:
@@ -133,18 +169,18 @@ class InstaGrabber(QtWidgets.QMainWindow, design.Ui_MainWindow):
 
             except instaloader.exceptions.LoginRequiredException:
                 print('Это закрытый пост, нужно ЗАЛОГИНИТЬСЯ')
-                self.show_popup_login_error()
+                show_popup_login_error()
                 self.login()
 
             except instaloader.exceptions.ConnectionException:
                 print('нет подключения, проверь инет')
-                self.show_popup_connection_error()
+                show_popup_connection_error()
 
             except IndexError:
                 print("не верный адрес")
-                self.show_popup_index_error()
+                show_popup_index_error()
             else:
-                self.show_popup(title='Done', text='DONE ', ico=QMessageBox.Warning)
+                show_popup(title='Done', text='DONE ', ico=QMessageBox.Warning)
         # ================================================================================ #
         # update_profile:
         # ================================================================================ #
@@ -155,18 +191,18 @@ class InstaGrabber(QtWidgets.QMainWindow, design.Ui_MainWindow):
 
             except instaloader.exceptions.LoginRequiredException:
                 print('Это закрытый пост, нужно ЗАЛОГИНИТЬСЯ')
-                self.show_popup_login_error()
+                show_popup_login_error()
                 self.login()
 
             except instaloader.exceptions.ConnectionException:
                 print('нет подключения, проверь инет')
-                self.show_popup_connection_error()
+                show_popup_connection_error()
 
             except IndexError:
                 print("не верный адрес")
-                self.show_popup_index_error()
+                show_popup_index_error()
             else:
-                self.show_popup(title='Done', text='DONE ', ico=QMessageBox.Warning)
+                show_popup(title='Done', text='DONE ', ico=QMessageBox.Warning)
         # ================================================================================ #
         # download_top_x_posts
         # ================================================================================ #
@@ -177,64 +213,32 @@ class InstaGrabber(QtWidgets.QMainWindow, design.Ui_MainWindow):
 
             except instaloader.exceptions.LoginRequiredException:
                 print('Это закрытый пост, нужно ЗАЛОГИНИТЬСЯ')
-                self.show_popup_login_error()
+                show_popup_login_error()
                 self.login()
 
             except instaloader.exceptions.ConnectionException:
                 print('нет подключения, проверь инет')
-                self.show_popup_connection_error()
+                show_popup_connection_error()
 
             except IndexError:
                 print("не верный адрес")
-                self.show_popup_index_error()
+                show_popup_index_error()
             else:
-                self.show_popup(title='Done', text='DONE ', ico=QMessageBox.Warning)
+                show_popup(title='Done', text='DONE ', ico=QMessageBox.Warning)
         # ================================================================================ #
-
-    def show_popup_login_error(self):
-        msg = QMessageBox()
-        msg.setWindowTitle('login_error')
-        msg.setText('This is a private post, you need to log in')
-        msg.setInformativeText('Login and try again.')
-        msg.setIcon(QMessageBox.Warning)
-        x = msg.exec_()
-
-    def show_popup_connection_error(self):
-        msg = QMessageBox()
-        msg.setWindowTitle('connection_error')
-        msg.setText('Connection error')
-        msg.setIcon(QMessageBox.Critical)
-        msg.setInformativeText('Connection aborted, check the Internet')
-        x = msg.exec_()
-
-    def show_popup_index_error(self):
-        msg = QMessageBox()
-        msg.setWindowTitle('index_error')
-        msg.setText("URL error: ")
-        msg.setIcon(QMessageBox.Critical)
-        msg.setInformativeText('Requested URL is incorrect or page has been removed')
-        x = msg.exec_()
-
-    def show_popup(self, title="", text="", info="", ico=QMessageBox.Critical):
-        msg = QMessageBox()
-        msg.setWindowTitle(title)
-        msg.setText(text)
-        msg.setIcon(ico)
-        msg.setInformativeText(info)
-        x = msg.exec_()
 
     def login(self):
         input_login, res_log = QInputDialog.getText(self, 'Login', 'Login')
         if res_log is True:
             input_password, res_pass = QInputDialog.getText(self, 'Password', 'Password')
-
+        print(input_login, input_password)
         try:
             insta_graber.login(input_login, input_password)
         except instaloader.exceptions.ConnectionException:
             print('нет подключения, проверь инет')
-            self.show_popup_connection_error()
+            show_popup_connection_error()
         except Exception as exception_error:
-            self.show_popup(title='Error', text=str(exception_error))
+            show_popup(title='Error', text=str(exception_error))
         else:
             self.label_login.setText("You loged in like: " + input_login[0])
 

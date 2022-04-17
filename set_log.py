@@ -1,2 +1,2 @@
-s_log = ''
-s_pas = ''
+s_log = ""
+s_pas = ""

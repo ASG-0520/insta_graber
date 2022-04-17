@@ -104,7 +104,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.rb_download_post = QtWidgets.QRadioButton(self.centralwidget)
         self.rb_download_post.setCheckable(True)
-        self.rb_download_post.setChecked(True)
+        self.rb_download_post.setChecked(False)
         self.rb_download_post.setObjectName("rb_download_post")
         self.verticalLayout.addWidget(self.rb_download_post)
         self.rb_download_profile = QtWidgets.QRadioButton(self.centralwidget)
